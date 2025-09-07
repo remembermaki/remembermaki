@@ -79,3 +79,32 @@ const messages = [
   // Dynamic year
   document.getElementById('year').textContent = new Date().getFullYear();
   
+
+
+  /* -------------------------------------------------
+   1️⃣ Hide the spinner when the iframe finishes loading
+   ------------------------------------------------- */
+const iframe = document.getElementById('gform');
+iframe.addEventListener('load', () => {
+    document.getElementById('spinner').style.display = 'none';
+});
+
+/* -------------------------------------------------
+   2️⃣ Auto‑resize the iframe height
+   -------------------------------------------------
+   We can’t read the form’s internal height (cross‑origin),
+   but we can give the iframe a generous height after it loads.
+   The script simply sets a new pixel height based on the
+   viewport width – this works well for most mobile forms.
+   ------------------------------------------------- */
+function resizeIframe() {
+    // Rough estimate: 1.5 × viewport width gives enough room
+    const newHeight = Math.round(window.innerWidth * 1.5);
+    iframe.style.height = `${newHeight}px`;
+}
+
+// Run once after the first load
+iframe.addEventListener('load', resizeIframe);
+
+// Also run on orientation change / window resize (e.g., rotating a phone)
+window.addEventListener('resize', resizeIframe);
